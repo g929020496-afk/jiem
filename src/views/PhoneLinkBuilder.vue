@@ -5,37 +5,34 @@
         <span>手机号链接生成</span>
       </div>
 
-      <el-form :inline="true" @submit.native.prevent>
-        <el-form-item label="Token">
+      <el-form :inline="true" class="query-form" @submit.native.prevent>
+        <el-form-item label="Token" class="form-item-token">
           <el-input
             v-model.trim="token"
             show-password
             clearable
             placeholder="请输入接口 Token"
-            style="width: 280px"
           />
         </el-form-item>
         <el-form-item>
           <el-button @click="saveToken">保存 Token</el-button>
         </el-form-item>
-        <el-form-item label="项目关键词">
+        <el-form-item label="项目关键词" class="form-item-keyword">
           <el-input
             v-model.trim="form.keyWord"
             clearable
             placeholder="与平台项目一致"
-            style="width: 180px"
           />
         </el-form-item>
-        <el-form-item label="省份">
+        <el-form-item label="省份" class="form-item-province">
           <el-input
             v-model.trim="form.province"
             clearable
             placeholder="可留空"
-            style="width: 120px"
           />
         </el-form-item>
-        <el-form-item label="卡类型">
-          <el-select v-model="form.cardType" placeholder="卡类型" style="width: 110px">
+        <el-form-item label="卡类型" class="form-item-card-type">
+          <el-select v-model="form.cardType" placeholder="卡类型">
             <el-option label="全部" value="全部" />
           </el-select>
         </el-form-item>
@@ -46,14 +43,13 @@
 
       <el-divider>手动补录（可选）</el-divider>
 
-      <el-form :inline="true" @submit.native.prevent>
-        <el-form-item label="手机号">
+      <el-form :inline="true" class="query-form" @submit.native.prevent>
+        <el-form-item label="手机号" class="form-item-mobile">
           <el-input
             v-model.trim="phone"
             placeholder="请输入 11 位手机号"
             clearable
             maxlength="11"
-            style="width: 240px"
           />
         </el-form-item>
         <el-form-item>
@@ -80,7 +76,8 @@
       <div slot="header" class="card-header">
         <span>已生成记录</span>
       </div>
-      <el-table :data="records" stripe>
+      <div class="table-wrap">
+        <el-table :data="records" stripe>
         <el-table-column prop="phone" label="手机号" width="160" />
         <el-table-column label="链接">
           <template slot-scope="{ row }">
@@ -97,7 +94,8 @@
             {{ formatTime(row.createdAt) }}
           </template>
         </el-table-column>
-      </el-table>
+        </el-table>
+      </div>
     </el-card>
   </div>
 </template>
@@ -277,5 +275,49 @@ export default {
 }
 .ml-8 {
   margin-left: 8px;
+}
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+.query-form ::v-deep .form-item-token .el-input,
+.query-form ::v-deep .form-item-token .el-input__inner {
+  width: 280px;
+}
+.query-form ::v-deep .form-item-keyword .el-input,
+.query-form ::v-deep .form-item-keyword .el-input__inner {
+  width: 180px;
+}
+.query-form ::v-deep .form-item-province .el-input,
+.query-form ::v-deep .form-item-province .el-input__inner {
+  width: 120px;
+}
+.query-form ::v-deep .form-item-mobile .el-input,
+.query-form ::v-deep .form-item-mobile .el-input__inner {
+  width: 240px;
+}
+.query-form ::v-deep .form-item-card-type .el-select {
+  width: 110px;
+}
+@media (max-width: 767px) {
+  .query-form ::v-deep .el-form-item {
+    display: flex;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .query-form ::v-deep .el-form-item__label {
+    width: 72px !important;
+    text-align: left;
+    padding-right: 8px;
+  }
+  .query-form ::v-deep .el-form-item__content {
+    flex: 1;
+    width: calc(100% - 72px);
+  }
+  .query-form ::v-deep .el-input,
+  .query-form ::v-deep .el-input__inner,
+  .query-form ::v-deep .el-select {
+    width: 100% !important;
+  }
 }
 </style>

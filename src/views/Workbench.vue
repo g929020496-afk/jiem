@@ -36,18 +36,18 @@
           <div slot="header" class="card-header">
             <span>号码获取</span>
           </div>
-          <el-form :inline="true" size="small" label-width="88px" @submit.native.prevent>
-            <el-form-item label="项目关键词">
-              <el-input v-model="form.keyWord" placeholder="与平台项目一致" clearable style="width: 220px" />
+          <el-form :inline="true" size="small" label-width="88px" class="query-form" @submit.native.prevent>
+            <el-form-item label="项目关键词" class="form-item-keyword">
+              <el-input v-model="form.keyWord" placeholder="与平台项目一致" clearable />
             </el-form-item>
-            <el-form-item label="指定号码">
-              <el-input v-model="form.phone" placeholder="可选" clearable style="width: 160px" />
+            <el-form-item label="指定号码" class="form-item-phone">
+              <el-input v-model="form.phone" placeholder="可选" clearable />
             </el-form-item>
-            <el-form-item label="省份">
-              <el-input v-model="form.province" placeholder="可留空" clearable style="width: 120px" />
+            <el-form-item label="省份" class="form-item-province">
+              <el-input v-model="form.province" placeholder="可留空" clearable />
             </el-form-item>
-            <el-form-item label="卡类型">
-              <el-select v-model="form.cardType" placeholder="卡类型" style="width: 110px">
+            <el-form-item label="卡类型" class="form-item-card-type">
+              <el-select v-model="form.cardType" placeholder="卡类型">
                 <el-option label="全部" value="全部" />
               </el-select>
             </el-form-item>
@@ -364,5 +364,55 @@ export default {
   font-weight: 700;
   color: #409eff;
   letter-spacing: 2px;
+}
+
+.query-form ::v-deep .form-item-keyword .el-input,
+.query-form ::v-deep .form-item-keyword .el-input__inner {
+  width: 220px;
+}
+.query-form ::v-deep .form-item-phone .el-input,
+.query-form ::v-deep .form-item-phone .el-input__inner {
+  width: 160px;
+}
+.query-form ::v-deep .form-item-province .el-input,
+.query-form ::v-deep .form-item-province .el-input__inner {
+  width: 120px;
+}
+.query-form ::v-deep .form-item-card-type .el-select {
+  width: 110px;
+}
+@media (max-width: 767px) {
+  .stat-value {
+    font-size: 22px;
+  }
+  .card-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .phone {
+    font-size: 18px;
+  }
+  .code {
+    font-size: 20px;
+  }
+  .query-form ::v-deep .el-form-item {
+    display: flex;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .query-form ::v-deep .el-form-item__label {
+    width: 72px !important;
+    text-align: left;
+    padding-right: 8px;
+  }
+  .query-form ::v-deep .el-form-item__content {
+    flex: 1;
+    width: calc(100% - 72px);
+  }
+  .query-form ::v-deep .el-input,
+  .query-form ::v-deep .el-input__inner,
+  .query-form ::v-deep .el-select {
+    width: 100% !important;
+  }
 }
 </style>
