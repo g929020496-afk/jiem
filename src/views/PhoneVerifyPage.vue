@@ -1,5 +1,6 @@
 <template>
   <div class="verify-page">
+    <button class="back-btn" type="button" @click="goBack">返回</button>
     <div class="panel">
       <div class="phone-row">
         <span class="phone">{{ phone || '--' }}</span>
@@ -78,6 +79,13 @@ export default {
     this.stopMsgPoll()
   },
   methods: {
+    goBack () {
+      if (window.history.length > 1) {
+        this.$router.back()
+        return
+      }
+      this.$router.push('/phone-link')
+    },
     getPayloadFromQuery () {
       const result = { phone: '', token: '', createdAt: 0, keyWord: '' }
       const payload = this.$route.query && this.$route.query.p
@@ -221,6 +229,19 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 16px;
+  position: relative;
+}
+.back-btn {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 14px;
+  padding: 8px 12px;
+  cursor: pointer;
 }
 .panel {
   width: 360px;
@@ -308,5 +329,34 @@ export default {
 }
 .mt-8 {
   margin-top: 8px;
+}
+@media (max-width: 767px) {
+  .verify-page {
+    align-items: flex-start;
+    padding: 54px 10px 12px;
+  }
+  .back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+  .panel {
+    width: 100%;
+    border-radius: 8px;
+    padding: 14px 12px;
+  }
+  .phone {
+    font-size: 15px;
+  }
+  .remain {
+    font-size: 26px;
+  }
+  .wait {
+    font-size: 20px;
+  }
+  .code-label {
+    font-size: 13px;
+  }
 }
 </style>

@@ -190,12 +190,12 @@ export default {
     },
     openLink () {
       if (!this.generatedLink) return
-      window.open(this.generatedLink, '_blank')
+      window.location.href = this.generatedLink
     },
     openRecordLink (row) {
       if (!row) return
       const link = this.makeLink(row.token, row.phone, row.createdAt)
-      window.open(link, '_blank')
+      window.location.href = link
     },
     parseError (text) {
       if (!text) return ''
