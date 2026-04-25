@@ -122,6 +122,7 @@ export default {
       },
       phone: '',
       generatedLink: '',
+      generatedRecord: null,
       records: [],
       loadingGetPhone: false
     }
@@ -157,9 +158,17 @@ export default {
       }
     },
     makeLink (token, phone, createdAt) {
-      const origin = window.location.origin
       const payload = this.encodePayload(phone, createdAt, this.token, this.form.keyWord)
-      return `${origin}/phone-verify/${token}?p=${payload}`
+      const route = this.buildVerifyRoute(token, phone, createdAt)
+      return route.href
+    },
+    buildVerifyRoute (token, phone, createdAt) {
+      const payload = this.encodePayload(phone, createdAt, this.token, this.form.keyWord)
+      return this.$router.resolve({
+        name: 'PhoneVerifyPage',
+        params: { token },
+        query: { p: payload }
+      })
     },
     refreshRecords () {
       this.records = listPhoneLinkRecords()
@@ -189,13 +198,20 @@ export default {
       this.copyText(this.generatedLink)
     },
     openLink () {
-      if (!this.generatedLink) return
-      window.location.href = this.generatedLink
+      if (!this.generatedRecord) return
+      this.$router.push({
+        name: 'PhoneVerifyPage',
+        params: { token: this.generatedRecord.token },
+        query: { p: this.encodePayload(this.generatedRecord.phone, this.generatedRecord.createdAt, this.token, this.form.keyWord) }
+      })
     },
     openRecordLink (row) {
       if (!row) return
-      const link = this.makeLink(row.token, row.phone, row.createdAt)
-      window.location.href = link
+      this.$router.push({
+        name: 'PhoneVerifyPage',
+        params: { token: row.token },
+        query: { p: this.encodePayload(row.phone, row.createdAt, this.token, this.form.keyWord) }
+      })
     },
     parseError (text) {
       if (!text) return ''
@@ -247,6 +263,7 @@ export default {
     handleGenerate () {
       try {
         const record = createOrGetPhoneLinkRecord(this.phone)
+        this.generatedRecord = record
         this.generatedLink = this.makeLink(record.token, record.phone, record.createdAt)
         this.refreshRecords()
         this.$message.success('生成成功')

@@ -5,7 +5,7 @@ import Layout from '@/layout/AdminLayout.vue'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   base: '/',
   routes: [
     {
